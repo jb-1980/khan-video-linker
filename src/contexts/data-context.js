@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 
-import { fetchVideos } from "./utils"
+import { fetchVideos } from "../lib/utils"
 
 const DataContext = React.createContext({})
 
