@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { css } from "emotion"
 
-import { copyToClipboard } from "./utils"
+import { copyToClipboard } from "../lib/utils"
 
 export const CopyButton = ({ str }) => {
   const [copied, setCopied] = useState(false)

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react"
 import { css } from "emotion"
 
-import { DataContext } from "./data-context"
+import { DataContext } from "../contexts/data-context"
 
 const videoClass = css`
   color: #e91e63;
@@ -25,7 +25,6 @@ const addVideoClass = css`
 export const Sidebar = ({ selectHandler, selected }) => {
   const [keyword, setKeyword] = useState("")
   const { videos, loading, error, refreshVideos } = useContext(DataContext)
-  console.log("in sidebar: ", { loading, error })
   const { filteredVideos, selectedVideos } = videos.reduce(
     (acc, video) => {
       if (video.title.includes(keyword)) {

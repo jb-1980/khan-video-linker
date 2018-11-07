@@ -29,21 +29,16 @@ export const parseVideoData = data => {
   }
 }
 
-export const fetchVideos = (data, setData, force = false) => {
-  console.log(force)
-  if (force || (data.videos.length === 0 && data.error === null)) {
+export const fetchVideos = (data, setData) => {
+  if (data.videos.length === 0 && data.error === null) {
     let videos = localStorage.getItem("videos")
-    if (videos === null || force) {
-      console.log("fetching videos. force is ", force)
+    if (videos === null) {
       const url = "https://www.khanacademy.org/api/v1/topictree?kind=Video"
       fetch(url)
         .then(res => res.json())
         .then(json => {
-          console.log("got the data back")
           videos = Object.values(parseVideoData(json))
-          console.log("getting ready to store the data in localStorage")
           localStorage.setItem("videos", JSON.stringify(videos))
-          console.log("data has been stored")
           setData({
             videos,
             loading: false,
