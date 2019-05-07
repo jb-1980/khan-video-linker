@@ -6,7 +6,7 @@ import { CopyButton } from "./copy-button"
 
 const baseUrl = "https://www.khanacademy.org/embed_video?v="
 
-const createButton = (i, youtubeId) => `
+export const createButton = (i, youtubeId) => `
   <button
     onclick="changeVideo('${baseUrl + youtubeId}')"
     style="
@@ -20,6 +20,25 @@ const createButton = (i, youtubeId) => `
   >
     Video ${i}
   </button>
+`
+
+export const createCodeString = selected => `
+<div>
+    <iframe
+    id="kaskill-ka-player"
+    style="width:853px;height:480px;border:none;background-color:ghostwhite;margin:auto;"
+    scrolling="no"
+    src="https://www.khanacademy.org/embed_video?v=${selected[0]}"
+    ></iframe>
+</div>
+<div>
+    ${selected.map((video, i) => createButton(i + 1, video)).join("")}
+</div>
+<script type="text/javascript">
+    function changeVideo(url){
+        document.getElementById("kaskill-ka-player").src = url;
+    }
+</script>
 `
 
 export const CodeContainer = ({ selected }) => {
@@ -52,25 +71,9 @@ export const CodeContainer = ({ selected }) => {
   )
 }
 
-const Code = ({ selected }) => {
-  const renderString = `
-<div>
-    <iframe
-    id="kaskill-ka-player"
-    style="width:853px;height:480px;border:none;background-color:ghostwhite;margin:auto;"
-    scrolling="no"
-    src="https://www.khanacademy.org/embed_video?v=${selected[0]}"
-    ></iframe>
-</div>
-<div>
-    ${selected.map((video, i) => createButton(i + 1, video)).join("")}
-</div>
-<script type="text/javascript">
-    function changeVideo(url){
-        document.getElementById("kaskill-ka-player").src = url;
-    }
-</script>
-`
+export const Code = ({ selected }) => {
+  const renderString = createCodeString(selected)
+
   return (
     <>
       <CopyButton str={renderString} />
