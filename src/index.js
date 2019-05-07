@@ -6,6 +6,7 @@ import { Navbar } from "./components/navbar"
 import { Sidebar } from "./components/sidebar"
 import { CodeContainer } from "./components/code-container"
 import { DataProvider } from "./contexts/data-context"
+
 import "./styles.css"
 
 const App = () => {

@@ -73,6 +73,7 @@ export const CodeContainer = ({ selected }) => {
 
 export const Code = ({ selected }) => {
   const renderString = createCodeString(selected)
+
   return (
     <>
       <CopyButton str={renderString} />
