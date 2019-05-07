@@ -1,11 +1,11 @@
-import React, { useState, useContext } from "react"
+import React, { useState } from "react"
 import ReactDOM from "react-dom"
 import { css } from "emotion"
 
-import { Navbar } from "./navbar"
-import { Sidebar } from "./sidebar"
-import { CodeContainer } from "./code-container"
-import { DataProvider, DataContext } from "./data-context"
+import { Navbar } from "./components/navbar"
+import { Sidebar } from "./components/sidebar"
+import { CodeContainer } from "./components/code-container"
+import { DataProvider } from "./contexts/data-context"
 import "./styles.css"
 
 const App = () => {
