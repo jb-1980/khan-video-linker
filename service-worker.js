@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/khan-video-linker/precache-manifest.96b70295089595eca06ac853c53297cc.js"
+  "/khan-video-linker/precache-manifest.a5f24e5a595238e3ffd8ea2e136fc789.js"
 );
 
 workbox.clientsClaim();
