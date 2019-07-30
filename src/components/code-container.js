@@ -12,8 +12,8 @@ export const createButton = (i, youtubeId) => `
   <button
     onclick="changeVideo('${baseUrl + youtubeId}')"
     style="
-      background: #5cb85c;
-      border: thin solid #4cae4c;
+      background: #089de3;
+      border: thin solid #089de3;
       border-radius: 5px;
       padding: 5px 9px;
       margin: 0 3px;
@@ -44,8 +44,7 @@ export const createCodeString = selected => `
 </script>
 `
 
-export const CodeContainer = () => {
-  const { selectedVideos } = useContext(DataContext)
+export const CodeContainer = ({ selected }) => {
   return (
     <div
       className={css`
@@ -77,6 +76,7 @@ export const CodeContainer = () => {
 
 export const Code = ({ selected }) => {
   const renderString = createCodeString(selected)
+
   return (
     <>
       <CopyButton str={renderString} />
@@ -112,8 +112,8 @@ const RenderedCode = ({ selected }) => {
             key={video}
             onClick={() => setView(video)}
             className={css`
-              background: #5cb85c;
-              border: thin solid #4cae4c;
+              background: #089de3;
+              border: thin solid #089de3;
               border-radius: 5px;
               padding: 5px 9px;
               margin: 0 3px;
