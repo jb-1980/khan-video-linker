@@ -1,27 +1,16 @@
-import React, { useState, useEffect } from "react"
-
-import { fetchVideos } from "../lib/utils"
+import React, { useState } from "react"
 
 const DataContext = React.createContext({})
 
-const initialState = {
-  videos: [],
-  loading: true,
-  error: null,
-}
-
 const DataProvider = ({ children }) => {
-  const [data, setData] = useState(initialState)
-
-  const refreshVideos = () => {
-    localStorage.removeItem("videos")
-    setData(initialState)
-  }
-
-  useEffect(() => fetchVideos(data, setData))
-
+  const [selectedVideos, setSelectedVideos] = useState([])
   return (
-    <DataContext.Provider value={{ ...data, refreshVideos }}>
+    <DataContext.Provider
+      value={{
+        selectedVideos,
+        setSelectedVideos,
+      }}
+    >
       {children}
     </DataContext.Provider>
   )

@@ -1,12 +1,14 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { css } from "emotion"
+
+import { DataContext } from "../contexts/data-context"
 
 import { Pills } from "./pills"
 import { CopyButton } from "./copy-button"
 
 const baseUrl = "https://www.khanacademy.org/embed_video?v="
 
-const createButton = (i, youtubeId) => `
+export const createButton = (i, youtubeId) => `
   <button
     onclick="changeVideo('${baseUrl + youtubeId}')"
     style="
@@ -22,40 +24,10 @@ const createButton = (i, youtubeId) => `
   </button>
 `
 
-export const CodeContainer = ({ selected }) => {
-  return (
-    <div
-      className={css`
-        width: 60%;
-        text-align: left;
-        padding: 10px;
-      `}
-    >
-      {selected.length === 0 ? (
-        <h1>Please select a video</h1>
-      ) : (
-        <Pills
-          tabs={[
-            { id: "code", name: "Code" },
-            { id: "rendered", name: "Rendered Code" },
-          ]}
-          render={view =>
-            view === "code" ? (
-              <Code selected={selected} />
-            ) : (
-              <RenderedCode selected={selected} />
-            )
-          }
-        />
-      )}
-    </div>
-  )
-}
-
-const Code = ({ selected }) => {
-  const renderString = `
+export const createCodeString = selected => `
 <div>
     <iframe
+    title="khan video player"
     id="kaskill-ka-player"
     style="width:853px;height:480px;border:none;background-color:ghostwhite;margin:auto;"
     scrolling="no"
@@ -71,10 +43,46 @@ const Code = ({ selected }) => {
     }
 </script>
 `
+
+export const CodeContainer = () => {
+  const { selectedVideos } = useContext(DataContext)
+  return (
+    <div
+      className={css`
+        width: 60%;
+        text-align: left;
+        padding: 10px;
+      `}
+    >
+      {selectedVideos.length === 0 ? (
+        <h1>Please select a video</h1>
+      ) : (
+        <Pills
+          tabs={[
+            { id: "code", name: "Code" },
+            { id: "rendered", name: "Rendered Code" },
+          ]}
+          render={view =>
+            view === "code" ? (
+              <Code selected={selectedVideos} />
+            ) : (
+              <RenderedCode selected={selectedVideos} />
+            )
+          }
+        />
+      )}
+    </div>
+  )
+}
+
+export const Code = ({ selected }) => {
+  const renderString = createCodeString(selected)
   return (
     <>
       <CopyButton str={renderString} />
-      <pre style={{ fontFamily: "monospace" }}>{renderString}</pre>
+      <pre data-testid="code-string" style={{ fontFamily: "monospace" }}>
+        {renderString}
+      </pre>
     </>
   )
 }
@@ -86,6 +94,7 @@ const RenderedCode = ({ selected }) => {
       <div>
         <iframe
           id="kaskill-ka-player"
+          title="khan video player"
           style={{
             width: "853px",
             height: "480px",

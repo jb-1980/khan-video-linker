@@ -6,12 +6,10 @@ export const parseVideoData = data => {
       } else if (child.kind === "Video") {
         return {
           ...acc,
-          [child.readable_id]: {
-            youtube_id: child.youtube_id,
-            title: child.title,
-          },
+          [child.youtube_id]: child.title,
         }
       }
+      return acc
     }, {})
   }
 
@@ -21,46 +19,24 @@ export const parseVideoData = data => {
 
   if (data.kind === "Video") {
     return {
-      [data.readable_id]: {
-        youtube_id: data.youtube_id,
-        title: data.title,
-      },
+      [data.youtube_id]: data.title,
     }
   }
 }
 
-export const fetchVideos = (data, setData) => {
-  if (data.videos.length === 0 && data.error === null) {
-    let videos = localStorage.getItem("videos")
-    if (videos === null) {
-      const url = "https://www.khanacademy.org/api/v1/topictree?kind=Video"
-      fetch(url)
-        .then(res => res.json())
-        .then(json => {
-          videos = Object.values(parseVideoData(json))
-          localStorage.setItem("videos", JSON.stringify(videos))
-          setData({
-            videos,
-            loading: false,
-            error: null,
-          })
-        })
-        .catch(err => {
-          console.error(err)
-          setData({
-            videos: [],
-            loading: false,
-            error: "there was an error while fetching the data",
-          })
-        })
-    } else {
-      setData({
-        videos: JSON.parse(videos),
-        loading: false,
-        error: null,
-      })
-    }
-  }
+export const fetchVideos = () => {
+  // ran into COR problem with Khan Academy API. So I had to provision a
+  // proxy server. Because this is on a codesandbox free server, it hibernates.
+  // That makes it a really slow call.
+  // When https://github.com/Khan/khan-api/issues/139 is resolved change back to
+  // url = "https://khanacademy.org/api/..."
+  const url = "https://jgilgen.pythonanywhere.com/api/v1/topictree?kind=Video"
+  return fetch(url)
+    .then(res => res.json())
+    .then(json => parseVideoData(json))
+    .catch(err => {
+      throw err
+    })
 }
 
 // source https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f

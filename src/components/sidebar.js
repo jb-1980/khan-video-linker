@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react"
 import { css } from "emotion"
 
+import { useVideos } from "../lib/hooks"
 import { DataContext } from "../contexts/data-context"
 
 const videoClass = css`
@@ -22,50 +23,44 @@ const addVideoClass = css`
   justify-content: center;
 `
 
-export const Sidebar = ({ selectHandler, selected }) => {
+export const Sidebar = () => {
   const [keyword, setKeyword] = useState("")
-  const { videos, loading, error, refreshVideos } = useContext(DataContext)
-  const { filteredVideos, selectedVideos } = videos.reduce(
-    (acc, video) => {
-      if (video.title.includes(keyword)) {
-        acc.filteredVideos.push(video)
-      }
-      if (selected.includes(video.youtube_id)) {
-        acc.selectedVideos.push(video)
-      }
-      return acc
-    },
-    { filteredVideos: [], selectedVideos: [] }
-  )
+  const { videos, loading, error, refreshVideos } = useVideos()
+  const { selectedVideos, setSelectedVideos } = useContext(DataContext)
 
-  const videoList = filteredVideos.slice(0, 10).map(video => (
+  // Use these to populate the two sidebar areas
+  const filteredVideos = Object.entries(videos).reduce((acc, [key, title]) => {
+    const hasSubstring = title.toLowerCase().includes(keyword.toLowerCase())
+    if (hasSubstring && !selectedVideos.includes(key)) {
+      acc.push({ key, title })
+    }
+
+    return acc
+  }, [])
+
+  const videoList = filteredVideos.slice(0, 10).map(({ key, title }) => (
     <div
-      key={video.youtube_id}
+      key={key}
+      data-testid={key}
       className={videoClass}
-      onClick={() =>
-        selectHandler(prevState =>
-          prevState.includes(video.youtube_id)
-            ? prevState
-            : [...prevState, video.youtube_id]
-        )
-      }
+      onClick={() => {
+        if (!selectedVideos.includes(key)) {
+          setSelectedVideos([...selectedVideos, key])
+        }
+      }}
     >
-      {video.title}
+      {title}
       <div className={addVideoClass}>+</div>
     </div>
   ))
 
-  const selectedVideosList = selectedVideos.map(video => (
+  const selectedVideosList = selectedVideos.map(key => (
     <div
-      key={video.youtube_id}
+      key={key}
       className={videoClass}
-      onClick={() =>
-        selectHandler(prevState =>
-          prevState.filter(v => v !== video.youtube_id)
-        )
-      }
+      onClick={() => setSelectedVideos(selectedVideos.filter(v => v !== key))}
     >
-      {video.title}
+      {videos[key]}
       <div className={addVideoClass}>-</div>
     </div>
   ))
@@ -79,15 +74,18 @@ export const Sidebar = ({ selectHandler, selected }) => {
       `}
     >
       {loading ? (
-        <h2> Retrieving video list ...</h2>
+        <h2>
+          Retrieving video list from Khan Academy.
+          <br /> This could take a minute ...
+        </h2>
       ) : error ? (
         <h2>{error}</h2>
       ) : (
         <>
           {selectedVideosList.length > 0 && (
-            <>
+            <div data-testid="selected-videos">
               <h4>Selected Videos</h4>
-              <div>{selectedVideosList}</div>
+              <div data-testid="video-list">{selectedVideosList}</div>
               <hr
                 style={{
                   height: 3,
@@ -95,7 +93,7 @@ export const Sidebar = ({ selectHandler, selected }) => {
                   background: "#b0003a",
                 }}
               />
-            </>
+            </div>
           )}
           <div>
             <h4 style={{ display: "inline-block", marginRight: 20 }}>
@@ -129,7 +127,7 @@ export const Sidebar = ({ selectHandler, selected }) => {
               margin: 10px 0;
             `}
           />
-          {videoList}
+          <div data-testid="video-list">{videoList}</div>
         </>
       )}
     </div>
