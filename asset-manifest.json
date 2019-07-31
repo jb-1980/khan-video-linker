@@ -1,13 +1,13 @@
 {
-  "main.css": "/khan-video-linker/static/css/main.f4e4be51.chunk.css",
-  "main.js": "/khan-video-linker/static/js/main.64f8bd2f.chunk.js",
-  "main.js.map": "/khan-video-linker/static/js/main.64f8bd2f.chunk.js.map",
-  "static/js/1.e03f16da.chunk.js": "/khan-video-linker/static/js/1.e03f16da.chunk.js",
-  "static/js/1.e03f16da.chunk.js.map": "/khan-video-linker/static/js/1.e03f16da.chunk.js.map",
+  "main.css": "/khan-video-linker/static/css/main.c17ca27a.chunk.css",
+  "main.js": "/khan-video-linker/static/js/main.a5ab5cd3.chunk.js",
+  "main.js.map": "/khan-video-linker/static/js/main.a5ab5cd3.chunk.js.map",
+  "static/js/1.bee71ece.chunk.js": "/khan-video-linker/static/js/1.bee71ece.chunk.js",
+  "static/js/1.bee71ece.chunk.js.map": "/khan-video-linker/static/js/1.bee71ece.chunk.js.map",
   "runtime~main.js": "/khan-video-linker/static/js/runtime~main.2ca36dd7.js",
   "runtime~main.js.map": "/khan-video-linker/static/js/runtime~main.2ca36dd7.js.map",
-  "static/css/main.f4e4be51.chunk.css.map": "/khan-video-linker/static/css/main.f4e4be51.chunk.css.map",
+  "static/css/main.c17ca27a.chunk.css.map": "/khan-video-linker/static/css/main.c17ca27a.chunk.css.map",
   "index.html": "/khan-video-linker/index.html",
-  "precache-manifest.a5f24e5a595238e3ffd8ea2e136fc789.js": "/khan-video-linker/precache-manifest.a5f24e5a595238e3ffd8ea2e136fc789.js",
+  "precache-manifest.1f56aa75997168a99c14abe9472d6206.js": "/khan-video-linker/precache-manifest.1f56aa75997168a99c14abe9472d6206.js",
   "service-worker.js": "/khan-video-linker/service-worker.js"
 }

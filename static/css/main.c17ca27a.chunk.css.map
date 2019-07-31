@@ -1,0 +1,1 @@
+{"version":3,"sources":["/home/joseph/projects/khan-video-linker/src/styles.css"],"names":[],"mappings":"AAAA,UAEE,SAAU,AACV,qBAAuB,CACxB,AAED,EACE,qBAAuB,CACxB","file":"main.c17ca27a.chunk.css","sourcesContent":["html,\nbody {\n  margin: 0;\n  font-family: monospace;\n}\n\n* {\n  box-sizing: border-box;\n}\n"]}
