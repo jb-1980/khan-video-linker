@@ -1,7 +1,5 @@
-import React, { useState, useContext } from "react"
+import React from "react"
 import { css } from "emotion"
-
-import { DataContext } from "../contexts/data-context"
 
 import { Pills } from "./pills"
 import { CopyButton } from "./copy-button"
@@ -27,7 +25,7 @@ export const createButton = (i, youtubeId) => `
 export const createCodeString = selected => `
 <div>
     <iframe
-    title="khan video player"
+    title="kaskill-ka-player"
     id="kaskill-ka-player"
     style="width:853px;height:480px;border:none;background-color:ghostwhite;margin:auto;"
     scrolling="no"
@@ -44,7 +42,8 @@ export const createCodeString = selected => `
 </script>
 `
 
-export const CodeContainer = ({ selected }) => {
+export const CodeContainer = ({ selectedVideos }) => {
+  const selected = selectedVideos.map(v => v.youtubeid)
   return (
     <div
       className={css`
@@ -53,7 +52,7 @@ export const CodeContainer = ({ selected }) => {
         padding: 10px;
       `}
     >
-      {selectedVideos.length === 0 ? (
+      {selected.length === 0 ? (
         <h1>Please select a video</h1>
       ) : (
         <Pills
@@ -63,9 +62,9 @@ export const CodeContainer = ({ selected }) => {
           ]}
           render={view =>
             view === "code" ? (
-              <Code selected={selectedVideos} />
+              <Code selected={selected} />
             ) : (
-              <RenderedCode selected={selectedVideos} />
+              <RenderedCode selected={selected} />
             )
           }
         />
@@ -88,13 +87,13 @@ export const Code = ({ selected }) => {
 }
 
 const RenderedCode = ({ selected }) => {
-  const [view, setView] = useState(selected[0])
+  const [view, setView] = React.useState(selected[0])
   return (
     <div>
       <div>
         <iframe
           id="kaskill-ka-player"
-          title="khan video player"
+          title="kaskill-ka-player"
           style={{
             width: "853px",
             height: "480px",

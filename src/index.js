@@ -8,22 +8,29 @@ import { CodeContainer } from "./components/code-container"
 import { DataProvider } from "./contexts/data-context"
 import "./styles.css"
 
-const App = () => (
-  <>
-    <Navbar />
-    <div
-      className={css`
-        display: flex;
-        min-height: calc(100vh - 50px);
-        background: #eee;
-        text-align: left;
-      `}
-    >
-      <Sidebar />
-      <CodeContainer />
-    </div>
-  </>
-)
+const App = () => {
+  const [selectedVideos, setSelectedVideos] = React.useState([])
+
+  return (
+    <>
+      <Navbar />
+      <div
+        className={css`
+          display: flex;
+          min-height: calc(100vh - 50px);
+          background: #eee;
+          text-align: left;
+        `}
+      >
+        <Sidebar
+          selectedVideos={selectedVideos}
+          setSelectedVideos={setSelectedVideos}
+        />
+        <CodeContainer selectedVideos={selectedVideos} />
+      </div>
+    </>
+  )
+}
 
 const rootElement = document.getElementById("root")
 ReactDOM.render(

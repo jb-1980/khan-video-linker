@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react"
+import React from "react"
 import { css } from "emotion"
 
-import { useVideos } from "../lib/hooks"
-import { DataContext } from "../contexts/data-context"
+import { AtomSpinner } from "./atom-spinner"
+import { useDataContext } from "../contexts/data-context"
 
 const videoClass = css`
   color: #e91e63;
@@ -23,29 +23,30 @@ const addVideoClass = css`
   justify-content: center;
 `
 
-export const Sidebar = () => {
-  const [keyword, setKeyword] = useState("")
-  const { videos, loading, error, refreshVideos } = useVideos()
-  const { selectedVideos, setSelectedVideos } = useContext(DataContext)
+export const Sidebar = ({ selectedVideos, setSelectedVideos }) => {
+  const [keyword, setKeyword] = React.useState("")
+  const { videos, loading, error, refreshVideos } = useDataContext()
 
   // Use these to populate the two sidebar areas
-  const filteredVideos = Object.entries(videos).reduce((acc, [key, title]) => {
+  const filteredVideos = videos.reduce((acc, { youtubeid, title }) => {
     const hasSubstring = title.toLowerCase().includes(keyword.toLowerCase())
-    if (hasSubstring && !selectedVideos.includes(key)) {
-      acc.push({ key, title })
+    const videoSelected = selectedVideos.find(v => v.youtubeid === youtubeid)
+    if (hasSubstring && !videoSelected) {
+      acc.push({ youtubeid, title })
     }
 
     return acc
   }, [])
 
-  const videoList = filteredVideos.slice(0, 10).map(({ key, title }) => (
+  const videoList = filteredVideos.slice(0, 10).map(({ youtubeid, title }) => (
     <div
-      key={key}
-      data-testid={key}
+      key={youtubeid}
+      data-testid={youtubeid}
       className={videoClass}
       onClick={() => {
-        if (!selectedVideos.includes(key)) {
-          setSelectedVideos([...selectedVideos, key])
+        const checkVideo = selectedVideos.find(v => v.youtubeid === youtubeid)
+        if (!checkVideo) {
+          setSelectedVideos([...selectedVideos, { youtubeid, title }])
         }
       }}
     >
@@ -54,13 +55,15 @@ export const Sidebar = () => {
     </div>
   ))
 
-  const selectedVideosList = selectedVideos.map(key => (
+  const selectedVideosList = selectedVideos.map(({ youtubeid, title }) => (
     <div
-      key={key}
+      key={youtubeid}
       className={videoClass}
-      onClick={() => setSelectedVideos(selectedVideos.filter(v => v !== key))}
+      onClick={() =>
+        setSelectedVideos(selectedVideos.filter(v => v.youtubeid !== youtubeid))
+      }
     >
-      {videos[key]}
+      {title}
       <div className={addVideoClass}>-</div>
     </div>
   ))
@@ -74,10 +77,19 @@ export const Sidebar = () => {
       `}
     >
       {loading ? (
-        <h2>
-          Retrieving video list from Khan Academy.
-          <br /> This could take a minute ...
-        </h2>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+          }}
+        >
+          <h2 style={{ margin: 0 }}>Retrieving videos</h2>
+          <h4 style={{ margin: 0 }}>(this could take a minute)</h4>
+          <AtomSpinner />
+        </div>
       ) : error ? (
         <h2>{error}</h2>
       ) : (
