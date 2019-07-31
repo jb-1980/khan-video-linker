@@ -3,6 +3,15 @@
   "version": "1.0.0",
   "description": "A simple app to make the embed code for a Khan Academy video player",
   "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jb-1980/khan-video-linker.git"
+  },
+  "author": "Joseph Gilgen <gilgenlabs@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jb-1980/khan-video-linker/issues"
+  },
   "main": "src/index.js",
   "dependencies": {
     "emotion": "9.2.12",
